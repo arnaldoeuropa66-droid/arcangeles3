@@ -1,22 +1,35 @@
 import { Resend } from 'resend';
 import { emailTemplate } from './email-template.js';
+import { emailConfirmacion } from './email-confirmacion.js';
 
 // ============================================
-// CONFIGURACIÓN DEL CICLO
+// CONFIGURACIÓN
 // ============================================
-const FECHA_BASE = new Date('2026-09-23T00:00:00Z');
+const BASE_URL = 'https://angeles-de-luz.arnaldoeuropa66.workers.dev';
+const DIAS_EXPIRACION_TOKEN = 1; // 24 horas
+const FECHA_BASE_CICLO = new Date('2026-09-23T00:00:00Z');
 const DIAS_CICLO = 120;
 
-/**
- * Calcula el día del ciclo (1-120) para una fecha dada.
- * Si la fecha es anterior a la base, envuelve correctamente.
- */
+// ============================================
+// UTILIDADES
+// ============================================
 function calcularDiaCiclo(fecha) {
   const fechaUTC = new Date(fecha.toISOString().split('T')[0] + 'T00:00:00Z');
-  const dias = Math.floor((fechaUTC - FECHA_BASE) / (1000 * 60 * 60 * 24));
+  const dias = Math.floor((fechaUTC - FECHA_BASE_CICLO) / (1000 * 60 * 60 * 24));
   return ((dias % DIAS_CICLO) + DIAS_CICLO) % DIAS_CICLO + 1;
 }
 
+const ANGELES_VALIDOS = ['miguel', 'gabriel', 'rafael', 'uriel', 'chamuel', 'zadkiel', 'jophiel'];
+
+function generarToken() {
+  const bytes = new Uint8Array(32);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// ============================================
+// WORKER
+// ============================================
 export default {
   // ============================================
   // FETCH — Sirve la web y los endpoints de API
@@ -60,8 +73,6 @@ export default {
 
     // --------------------------------------------
     // /api/contenido-hoy — Devuelve el contenido del día del ciclo
-    // Parámetros: ?angel=miguel  (obligatorio)
-    //             ?fecha=2026-09-22  (opcional, por defecto hoy)
     // --------------------------------------------
     if (url.pathname === '/api/contenido-hoy') {
       const angel = url.searchParams.get('angel');
@@ -130,6 +141,184 @@ export default {
         }), {
           status: 500,
           headers: { 'Content-Type': 'application/json' }
+        });
+      }
+    }
+
+    // --------------------------------------------
+    // /api/suscribirse — Alta de nuevo suscriptor
+    // POST con { email, nombre, angel, canal, consentimiento }
+    // --------------------------------------------
+    if (url.pathname === '/api/suscribirse' && request.method === 'POST') {
+      try {
+        const body = await request.json();
+        const { email, nombre, angel, canal, consentimiento } = body;
+
+        // Validaciones
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          return new Response(JSON.stringify({
+            status: 'error',
+            mensaje: 'Email inválido.'
+          }), {
+            status: 400,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
+
+        if (!angel || !ANGELES_VALIDOS.includes(angel)) {
+          return new Response(JSON.stringify({
+            status: 'error',
+            mensaje: 'Ángel inválido.'
+          }), {
+            status: 400,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
+
+        if (!consentimiento) {
+          return new Response(JSON.stringify({
+            status: 'error',
+            mensaje: 'Debes aceptar la política de privacidad.'
+          }), {
+            status: 400,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
+
+        // ¿Ya existe?
+        const existente = await env.DB.prepare(
+          'SELECT id, activo, fecha_confirmacion FROM usuarios_prueba WHERE email = ? LIMIT 1'
+        ).bind(email).first();
+
+        if (existente && existente.fecha_confirmacion) {
+          return new Response(JSON.stringify({
+            status: 'ya_suscrito',
+            mensaje: 'Este email ya está suscrito. Revisa tu bandeja de entrada.'
+          }), {
+            status: 409,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
+
+        // Generar token y fechas
+        const token = generarToken();
+        const ahora = Math.floor(Date.now() / 1000);
+        const expiracion = ahora + (DIAS_EXPIRACION_TOKEN * 86400);
+        const ip = request.headers.get('CF-Connecting-IP') || 'desconocida';
+
+        // Insertar o actualizar
+        if (existente) {
+          await env.DB.prepare(
+            `UPDATE usuarios_prueba 
+             SET token_confirmacion = ?, fecha_expiracion_token = ?, ip_registro = ?, 
+                 consentimiento_version = ?, angel_slug = ?, canal = ?, nombre = ?, activo = 0
+             WHERE email = ?`
+          ).bind(token, expiracion, ip, 'v1.0', angel, canal || 'email', nombre || null, email).run();
+        } else {
+          await env.DB.prepare(
+            `INSERT INTO usuarios_prueba 
+             (email, nombre, angel_slug, canal, activo, fecha_alta, token_confirmacion, 
+              fecha_expiracion_token, ip_registro, consentimiento_version)
+             VALUES (?, ?, ?, ?, 0, ?, ?, ?, ?, ?)`
+          ).bind(email, nombre || null, angel, canal || 'email', ahora, token, expiracion, ip, 'v1.0').run();
+        }
+
+        // Enviar email de confirmación
+        const resend = new Resend(env.RESEND_API_KEY);
+        const { error } = await resend.emails.send({
+          from: 'Ángeles de Luz <onboarding@resend.dev>',
+          to: [email],
+          subject: '🕊️ Confirma tu suscripción a Ángeles de Luz',
+          html: emailConfirmacion({ nombre, email, token, angel, baseUrl: BASE_URL })
+        });
+
+        if (error) {
+          console.error('Error enviando email de confirmación:', error.message);
+          return new Response(JSON.stringify({
+            status: 'error',
+            mensaje: 'No se pudo enviar el email de confirmación.'
+          }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
+
+        return new Response(JSON.stringify({
+          status: 'ok',
+          mensaje: 'Te hemos enviado un email. Revisa tu bandeja de entrada (y spam) para confirmar tu suscripción.'
+        }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
+
+      } catch (error) {
+        console.error('Error en /api/suscribirse:', error.message);
+        return new Response(JSON.stringify({
+          status: 'error',
+          mensaje: error.message
+        }), {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+    }
+
+    // --------------------------------------------
+    // /api/confirmar — Confirmación de email con token
+    // GET ?token=xxx
+    // --------------------------------------------
+    if (url.pathname === '/api/confirmar') {
+      const token = url.searchParams.get('token');
+
+      if (!token) {
+        return new Response('Token no proporcionado.', {
+          status: 400,
+          headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+        });
+      }
+
+      try {
+        const usuario = await env.DB.prepare(
+          `SELECT id, email, nombre, angel_slug, fecha_expiracion_token, fecha_confirmacion
+           FROM usuarios_prueba
+           WHERE token_confirmacion = ?
+           LIMIT 1`
+        ).bind(token).first();
+
+        if (!usuario) {
+          return new Response('Token inválido o ya utilizado. Si crees que es un error, escríbenos.', {
+            status: 404,
+            headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+          });
+        }
+
+        if (usuario.fecha_confirmacion) {
+          return Response.redirect(`${BASE_URL}/confirmado.html`, 302);
+        }
+
+        const ahora = Math.floor(Date.now() / 1000);
+
+        if (usuario.fecha_expiracion_token && ahora > usuario.fecha_expiracion_token) {
+          return new Response('El enlace ha caducado. Por favor, solicita una nueva suscripción desde la web.', {
+            status: 410,
+            headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+          });
+        }
+
+        // Activar usuario
+        await env.DB.prepare(
+          `UPDATE usuarios_prueba 
+           SET activo = 1, fecha_confirmacion = ?, token_confirmacion = NULL, fecha_expiracion_token = NULL
+           WHERE id = ?`
+        ).bind(ahora, usuario.id).run();
+
+        return Response.redirect(`${BASE_URL}/confirmado.html`, 302);
+
+      } catch (error) {
+        console.error('Error en /api/confirmar:', error.message);
+        return new Response('Error al procesar la confirmación.', {
+          status: 500,
+          headers: { 'Content-Type': 'text/plain; charset=utf-8' }
         });
       }
     }

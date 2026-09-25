@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f172a">
+  <title>¡Confirmado! — Ángeles de Luz</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <style>
+    .confirmado-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-lg);
+    }
+
+    .confirmado-card {
+      max-width: 560px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 2px solid var(--color-gold);
+      border-radius: 20px;
+      padding: var(--space-2xl) var(--space-xl);
+      box-shadow: 0 10px 40px rgba(201, 169, 97, 0.25);
+    }
+
+    .confirmado-icon {
+      font-size: 5rem;
+      margin-bottom: var(--space-md);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    .confirmado-card h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      color: #e4cc8a;
+      margin-bottom: var(--space-md);
+    }
+
+    .confirmado-card p {
+      color: var(--color-text);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: var(--space-md);
+    }
+
+    .confirmado-card .btn {
+      margin-top: var(--space-md);
+    }
+
+    .confirmado-info {
+      margin-top: var(--space-lg);
+      padding-top: var(--space-md);
+      border-top: 1px solid rgba(201, 169, 97, 0.2);
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <main class="confirmado-page">
+    <div class="confirmado-card">
+      <div class="confirmado-icon">🕊️</div>
+      <h1>¡Bienvenido a Ángeles de Luz!</h1>
+      <p>
+        Tu suscripción ha sido confirmada con éxito.<br>
+        A partir de mañana, recibirás cada mañana el mensaje de tu ángel guía.
+      </p>
+      <p style="color: var(--color-gold-light); font-style: italic;">
+        Que la luz te acompañe en este camino.
+      </p>
+      <a href="/" class="btn btn-primary">Volver al inicio</a>
+      <div class="confirmado-info">
+        📬 El primer mensaje llegará mañana a las 7:00 (hora peninsular).
+      </div>
+    </div>
+  </main>
+</body>
+</html>
