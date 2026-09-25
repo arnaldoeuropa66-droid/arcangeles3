@@ -1,0 +1,335 @@
+/* ============================================
+   ÁNGELES DE LUZ — Estilos páginas legales
+   ============================================ */
+
+.legal-page {
+  min-height: 100vh;
+  padding: var(--space-2xl) 0;
+}
+
+.legal-content {
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(201, 169, 97, 0.25);
+  border-radius: 16px;
+  padding: var(--space-xl);
+  line-height: 1.7;
+}
+
+.legal-content h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  color: #e4cc8a;
+  margin-bottom: var(--space-md);
+  text-align: center;
+}
+
+.legal-content h2 {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  color: #e4cc8a;
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-sm);
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(201, 169, 97, 0.2);
+}
+
+.legal-content h3 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: #ffffff;
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-xs);
+}
+
+.legal-content p,
+.legal-content li {
+  color: #e2e8f0;
+  margin-bottom: var(--space-sm);
+}
+
+.legal-content ul,
+.legal-content ol {
+  padding-left: 1.5rem;
+  margin-bottom: var(--space-sm);
+}
+
+.legal-content li {
+  margin-bottom: 0.4rem;
+}
+
+.legal-content strong {
+  color: #ffffff;
+}
+
+.legal-content a {
+  color: #c9a961;
+  text-decoration: underline;
+}
+
+.legal-content a:hover {
+  color: #e4cc8a;
+}
+
+.legal-meta {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-xl);
+}
+
+.legal-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #c9a961;
+  margin-bottom: var(--space-md);
+  font-size: 0.95rem;
+}
+
+.legal-back:hover {
+  color: #e4cc8a;
+}
+
+@media (max-width: 640px) {
+  .legal-content {
+    padding: var(--space-md);
+  }
+}
+
+/* ============================================
+   BANNER DE COOKIES
+   ============================================ */
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(15, 23, 42, 0.98);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 2px solid #c9a961;
+  padding: 1.5rem;
+  z-index: 9999;
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.cookie-banner.visible {
+  transform: translateY(0);
+}
+
+.cookie-banner__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.cookie-banner__text {
+  color: #e2e8f0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.cookie-banner__text strong {
+  color: #e4cc8a;
+}
+
+.cookie-banner__text a {
+  color: #c9a961;
+  text-decoration: underline;
+}
+
+.cookie-banner__actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.cookie-banner__btn {
+  padding: 0.7rem 1.4rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: 2px solid;
+  white-space: nowrap;
+}
+
+.cookie-banner__btn--accept {
+  background: #c9a961;
+  color: #0f172a;
+  border-color: #c9a961;
+}
+
+.cookie-banner__btn--accept:hover {
+  background: #e4cc8a;
+  border-color: #e4cc8a;
+}
+
+.cookie-banner__btn--reject {
+  background: transparent;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.cookie-banner__btn--reject:hover {
+  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cookie-banner__btn--config {
+  background: transparent;
+  color: #94a3b8;
+  border-color: transparent;
+  text-decoration: underline;
+  padding: 0.7rem 0.5rem;
+}
+
+.cookie-banner__btn--config:hover {
+  color: #e4cc8a;
+}
+
+/* Panel de configuración */
+.cookie-config {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(6px);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.cookie-config.visible {
+  display: flex;
+}
+
+.cookie-config__inner {
+  background: #0f2440;
+  border: 1px solid rgba(201, 169, 97, 0.4);
+  border-radius: 16px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+.cookie-config__inner h2 {
+  font-family: var(--font-serif);
+  color: #e4cc8a;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.cookie-config__inner p {
+  color: #94a3b8;
+  font-size: 0.92rem;
+  margin-bottom: 1.5rem;
+}
+
+.cookie-category {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
+}
+
+.cookie-category__info h3 {
+  font-size: 1rem;
+  color: #ffffff;
+  margin-bottom: 0.3rem;
+  font-family: var(--font-sans);
+}
+
+.cookie-category__info p {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.cookie-category__switch {
+  position: relative;
+  width: 50px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.cookie-category__switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.cookie-category__slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #475569;
+  border-radius: 26px;
+  transition: 0.3s;
+}
+
+.cookie-category__slider::before {
+  content: '';
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.cookie-category__switch input:checked + .cookie-category__slider {
+  background: #c9a961;
+}
+
+.cookie-category__switch input:checked + .cookie-category__slider::before {
+  transform: translateX(24px);
+}
+
+.cookie-category__switch input:disabled + .cookie-category__slider {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cookie-config__actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .cookie-banner__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .cookie-banner__actions {
+    width: 100%;
+  }
+
+  .cookie-banner__btn {
+    flex: 1;
+    min-width: 0;
+    padding: 0.7rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}

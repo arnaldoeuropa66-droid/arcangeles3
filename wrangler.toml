@@ -1,0 +1,16 @@
+name = "angeles-de-luz"
+main = "src/worker.js"
+compatibility_date = "2025-01-01"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "angeles-de-luz-db"
+database_id = "2171ea8e-4fa7-4acf-89c6-ab546dfe8382"
+
+[triggers]
+crons = ["0 6 * * *"]
