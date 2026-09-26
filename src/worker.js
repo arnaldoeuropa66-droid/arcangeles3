@@ -322,7 +322,64 @@ export default {
         });
       }
     }
+    // --------------------------------------------
+    // /api/baja — Procesar baja de suscriptor
+    // POST con { email }
+    // --------------------------------------------
+    if (url.pathname === '/api/baja' && request.method === 'POST') {
+      try {
+        const body = await request.json();
+        const { email } = body;
 
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          return new Response(JSON.stringify({
+            status: 'error',
+            mensaje: 'Email inválido.'
+          }), {
+            status: 400,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
+
+        // Buscar el usuario
+        const usuario = await env.DB.prepare(
+          'SELECT id, email, activo FROM usuarios_prueba WHERE email = ? LIMIT 1'
+        ).bind(email).first();
+
+        if (!usuario) {
+          return new Response(JSON.stringify({
+            status: 'no_encontrado',
+            mensaje: 'Este email no está registrado en Ángeles de Luz.'
+          }), {
+            status: 404,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
+
+        // Marcar como inactivo
+        await env.DB.prepare(
+          'UPDATE usuarios_prueba SET activo = 0 WHERE email = ?'
+        ).bind(email).run();
+
+        return new Response(JSON.stringify({
+          status: 'ok',
+          mensaje: 'Tu suscripción ha sido cancelada. No recibirás más mensajes. Que Dios te acompañe.'
+        }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
+
+      } catch (error) {
+        console.error('Error en /api/baja:', error.message);
+        return new Response(JSON.stringify({
+          status: 'error',
+          mensaje: error.message
+        }), {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+    }
     // --------------------------------------------
     // Todo lo demás → assets estáticos
     // --------------------------------------------

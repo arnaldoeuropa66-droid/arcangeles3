@@ -5,31 +5,292 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0f172a">
   <title>Preguntas frecuentes — Ángeles de Luz</title>
-  <meta name="description" content="Preguntas frecuentes sobre la suscripción Ángeles de Luz.">
-  <meta name="robots" content="noindex, follow">
+  <meta name="description" content="Resolvemos tus dudas sobre la suscripción Ángeles de Luz: cómo funciona, cuánto cuesta, cómo darte de baja y más.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://angeles-de-luz.arnaldoeuropa66.workers.dev/pages/preguntas-frecuentes.html">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="/assets/legal.css">
+
+  <style>
+    .faq-page {
+      min-height: 100vh;
+      padding: var(--space-2xl) 0;
+    }
+
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(201, 169, 97, 0.25);
+      border-radius: 16px;
+      padding: var(--space-xl);
+    }
+
+    .faq-card h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      color: #e4cc8a;
+      text-align: center;
+      margin-bottom: var(--space-sm);
+    }
+
+    .faq-card .faq-intro {
+      text-align: center;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-xl);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid rgba(201, 169, 97, 0.2);
+      padding: var(--space-md) 0;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-item summary {
+      cursor: pointer;
+      padding: 0.5rem 0;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      transition: color 0.25s ease;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary:hover {
+      color: #e4cc8a;
+    }
+
+    .faq-item summary h3 {
+      font-family: var(--font-sans);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin: 0;
+      flex: 1;
+      line-height: 1.4;
+    }
+
+    .faq-item summary:hover h3 {
+      color: #e4cc8a;
+    }
+
+    .faq-item summary::after {
+      content: '+';
+      font-size: 1.5rem;
+      color: #c9a961;
+      font-weight: 300;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+      width: 24px;
+      text-align: center;
+    }
+
+    .faq-item[open] summary::after {
+      transform: rotate(45deg);
+    }
+
+    .faq-item[open] summary h3 {
+      color: #e4cc8a;
+    }
+
+    .faq-item .faq-answer {
+      padding: 1rem 0 0.5rem;
+      color: #e2e8f0;
+      line-height: 1.7;
+      font-size: 0.98rem;
+    }
+
+    .faq-item .faq-answer p {
+      margin-bottom: 0.75rem;
+    }
+
+    .faq-item .faq-answer p:last-child {
+      margin-bottom: 0;
+    }
+
+    .faq-item .faq-answer a {
+      color: #c9a961;
+      text-decoration: underline;
+    }
+
+    .faq-item .faq-answer a:hover {
+      color: #e4cc8a;
+    }
+
+    .faq-cta {
+      margin-top: var(--space-xl);
+      padding-top: var(--space-lg);
+      border-top: 1px solid rgba(201, 169, 97, 0.2);
+      text-align: center;
+    }
+
+    .faq-cta p {
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-md);
+    }
+
+    @media (max-width: 640px) {
+      .faq-card {
+        padding: var(--space-md);
+      }
+
+      .faq-item summary h3 {
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <main class="legal-page">
-    <div class="container">
-      <div class="legal-content">
-        <a href="/" class="legal-back">← Volver al inicio</a>
-        <h1>Preguntas frecuentes</h1>
-        <p class="legal-meta">Estamos preparando esta sección</p>
 
-        <div style="text-align:center; padding: 3rem 1rem;">
-          <div style="font-size: 4rem; margin-bottom: 1.5rem;">🕊️</div>
-          <h2 style="border: none; text-align: center; margin-top: 0;">En construcción</h2>
-          <p style="font-size: 1.05rem; max-width: 500px; margin: 1.5rem auto;">
-            Estamos preparando las respuestas a las preguntas más frecuentes sobre Ángeles de Luz.
+  <div class="ethereal-bg" aria-hidden="true">
+    <div class="ethereal-glow glow-1"></div>
+    <div class="ethereal-glow glow-2"></div>
+  </div>
+
+  <main class="faq-page">
+    <div class="container">
+      <div class="faq-container">
+        <a href="/" class="legal-back">← Volver al inicio</a>
+
+        <div class="faq-card">
+          <h1>Preguntas frecuentes</h1>
+          <p class="faq-intro">
+            Todo lo que necesitas saber sobre Ángeles de Luz.
+            Si no encuentras tu respuesta, escríbenos.
           </p>
-          <p style="font-size: 1.05rem; max-width: 500px; margin: 1rem auto 2rem;">
-            Mientras tanto, puedes escribirnos directamente y te responderemos lo antes posible.
-          </p>
-          <a href="mailto:efectobermuabh@proton.me" class="btn btn-primary">
-            Escríbenos → efectobermuabh@proton.me
-          </a>
+
+          <details class="faq-item">
+            <summary><h3>¿Qué es Ángeles de Luz?</h3></summary>
+            <div class="faq-answer">
+              <p>Ángeles de Luz es un servicio de suscripción espiritual diaria. Cada mañana recibes en tu correo un mensaje con contenido devocional: un versículo bíblico, una oración, una reflexión y una bendición, asociados al ángel o arcángel que hayas elegido.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary><h3>¿Cómo funciona la suscripción?</h3></summary>
+            <div class="faq-answer">
+              <p>Es muy sencillo:</p>
+              <p>1. Te suscribes en nuestra <a href="/suscribirse.html">página de suscripción</a>.<br>
+                 2. Recibes un email de confirmación para verificar tu dirección.<br>
+                 3. Confirmas y a partir de ese momento empiezas a recibir tu mensaje diario.</p>
+              <p>El mensaje llega todos los días alrededor de las 7:00 (hora peninsular española).</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary><h3>¿Cuánto cuesta?</h3></summary>
+            <div class="faq-answer">
+              <p>Actualmente puedes probar el servicio <strong>7 días gratis sin tarjeta</strong>. Después, tienes tres planes:</p>
+              <p>• <strong>Personal:</strong> 15€/mes (hasta 3 ángeles simultáneos)<br>
+                 • <strong>Familiar:</strong> 35€/mes (hasta 3 personas)<br>
+                 • <strong>Comunidad:</strong> 80€/mes (hasta 15 miembros)</p>
+              <p>Puedes cancelar en cualquier momento sin compromiso.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary><h3>¿Qué ángeles puedo elegir?</h3></summary>
+            <div class="faq-answer">
+              <p>Tienes 7 arcángeles disponibles, cada uno con una temática distinta:</p>
+              <p>• <strong>San Miguel</strong> — Protección y fortaleza<br>
+                 • <strong>San Gabriel</strong> — Comunicación y fe<br>
+                 • <strong>San Rafael</strong> — Sanación y viajes<br>
+                 • <strong>Uriel</strong> — Sabiduría y luz<br>
+                 • <strong>Chamuel</strong> — Paz y amor<br>
+                 • <strong>Zadkiel</strong> — Perdón y misericordia<br>
+                 • <strong>Jophiel</strong> — Belleza e inspiración</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary><h3>¿Por qué canal recibo los mensajes?</h3></summary>
+            <div class="faq-answer">
+              <p>De momento enviamos los mensajes <strong>por correo electrónico</strong>. Estamos trabajando para añadir Telegram y WhatsApp en el futuro próximo.</p>
+              <p>Te avisaremos por email cuando estén disponibles y podrás cambiar de canal cuando quieras.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary><h3>¿Puedo elegir varios ángeles a la vez?</h3></summary>
+            <div class="faq-answer">
+              <p>Sí. Puedes suscribirte a un solo ángel o a varios. En el plan Personal puedes tener hasta 3 ángeles simultáneos, y en los planes superiores tienes aún más flexibilidad.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary><h3>¿Cómo me doy de baja?</h3></summary>
+            <div class="faq-answer">
+              <p>Puedes darte de baja en cualquier momento, sin explicaciones y sin coste. Tienes dos opciones:</p>
+              <p>• Pulsar el enlace "Cancelar suscripción" que aparece al pie de cada correo que recibes.<br>
+                 • Acceder a nuestra <a href="/pages/baja.html">página de baja</a> e introducir tu email.</p>
+              <p>Tu baja se procesa inmediatamente y no recibirás más mensajes.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary><h3>¿Qué pasa con mis datos personales?</h3></summary>
+            <div class="faq-answer">
+              <p>Solo necesitamos tu email para enviarte los mensajes. <strong>No compartimos tus datos con nadie</strong> y no los usamos para publicidad.</p>
+              <p>Puedes leer todos los detalles en nuestra <a href="/pages/politicas.html">Política de Privacidad</a>. Cumplimos estrictamente el RGPD y la normativa española de protección de datos.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary><h3>¿Qué pasa si un día no recibo el mensaje?</h3></summary>
+            <div class="faq-answer">
+              <p>Si no recibes el mensaje, prueba esto:</p>
+              <p>1. Revisa tu carpeta de <strong>Spam</strong> o <strong>Correo no deseado</strong>.<br>
+                 2. Añade nuestra dirección a tu lista de contactos para asegurarte de que llega.<br>
+                 3. Si sigue sin llegar, escríbenos y lo investigamos.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary><h3>¿Es un servicio religioso?</h3></summary>
+            <div class="faq-answer">
+              <p>Ángeles de Luz es un servicio espiritual y devocional de inspiración cristiana. Los versículos son de la Biblia y las oraciones tienen raíz católica, pero el servicio es <strong>abierto a cualquier persona</strong> que busque paz, reflexión y acompañamiento espiritual, sea cual sea su tradición o camino.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary><h3>¿Puedo regalar una suscripción?</h3></summary>
+            <div class="faq-answer">
+              <p>¡Sí! Nos encanta la idea. Escríbenos y te ayudamos a configurar una suscripción como regalo para alguien especial.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary><h3>¿Cómo os contacto si tengo otra pregunta?</h3></summary>
+            <div class="faq-answer">
+              <p>Puedes escribirnos a <a href="mailto:efectobermuabh@proton.me">efectobermuabh@proton.me</a> o usar nuestra <a href="/pages/contacto.html">página de contacto</a>.</p>
+              <p>Respondemos en menos de 48 horas (normalmente mucho antes).</p>
+            </div>
+          </details>
+
+          <div class="faq-cta">
+            <p>¿No encuentras lo que buscas?</p>
+            <a href="/pages/contacto.html" class="btn btn-primary">Escríbenos</a>
+          </div>
+
         </div>
       </div>
     </div>
